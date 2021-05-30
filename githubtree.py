@@ -7,6 +7,14 @@ from pygame.math import Vector2
 import webbrowser
     
 
+def resource_path(relative_path):
+    try:
+        base_path = sys._MEIPASS
+    except AttributeError:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 COLOR_PALETTE = {
     "leaf_tree": (230, 230, 230),
     "leaf_blob": (255, 87, 51),
@@ -21,6 +29,7 @@ logo = pygame.Surface((20, 20))
 logo.fill((255, 255, 255, 0))
 pygame.draw.circle(logo, COLOR_PALETTE["leaf_tree"], (10, 10), 10)
 pygame.draw.circle(logo, COLOR_PALETTE["leaf_blob"], (10, 10), 10, 3)
+
 
 class Menu:
     user = ""
@@ -197,7 +206,8 @@ class TreeManager:
         self.leaf_buttons = []
 
     def init_buttons(self, manager):
-        default_font = pygame.font.Font(pygame.font.get_default_font(), 20)
+        # default_font = pygame.font.Font(pygame.font.get_default_font(), 20)
+        default_font = pygame.font.Font(resource_path('data\\arial.ttf'), 20)
         buttons_periodic_offset_dict = {i : True for i in range(self.tree.get_max_depth() + 1)}
         def create_button(node):
             button_size = default_font.size(node.name)
@@ -251,7 +261,7 @@ def main():
     pygame.display.set_icon(logo)
     screen = pygame.display.set_mode((screen_width, screen_height))
 
-    gui_manager = pygame_gui.UIManager((screen_width, screen_height), "default_theme.json")
+    gui_manager = pygame_gui.UIManager((screen_width, screen_height), resource_path("data\\theme.json"))
 
     screen.fill(COLOR_PALETTE["background"])
 
