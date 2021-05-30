@@ -1,0 +1,4 @@
+requests
+pygame
+pygame_gui
+webbrowser
